@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'addressbook';
+
+  constructor(private dataService: DataService) {
+    this.dataService.getRepos().subscribe(
+      x => console.log(x)
+    )
+  }
 }

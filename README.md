@@ -1,4 +1,5 @@
-# Addressbook
+# ng-Testing-exercises
+
 Simple project to learn unit testing with Angular.
 
 <hr>
