@@ -1,12 +1,13 @@
 <h1>{{title}}</h1>
 
 <ng-container *ngIf="repos$ | async as repos">
-  <div class="card" *ngFor="let repo of repos">
-    <div class="container">
-      <h4><b>{{ repo.name }}</b></h4>
-      <p>{{ repo.description }}</p>
+  <div class="container">
+    <div class="chip" *ngFor="let repo of repos">
+      {{ repo.name }}
     </div>
   </div>
+
+  <app-repo-card *ngFor="let repo of repos" [repo]="repo" (delete)="delete(repo.id)"></app-repo-card>
 </ng-container>
 
 <div class="error" *ngIf="error">

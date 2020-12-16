@@ -8,6 +8,7 @@ import { DataService } from '../services/data.service';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
 
 import { ReposComponent } from './repos.component';
+import { RepoCardComponent } from '../repo-card/repo-card.component';
 
 describe('ReposComponent', () => {
   let component: ReposComponent;
@@ -34,7 +35,7 @@ describe('ReposComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [ ReposComponent ],
+      declarations: [ ReposComponent, RepoCardComponent ],
     })
     .compileComponents();
   }));
@@ -69,14 +70,14 @@ describe('ReposComponent', () => {
 
   it('should render all the Github Repos', () => {
     fixture.detectChanges();
-    const reposElements = fixture.debugElement.queryAll(By.css('.card'));
+    const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
 
     expect(reposElements.length).toBe(testRepos.length);
   });
 
   it('should show the Repos names', () => {
     fixture.detectChanges();
-    const reposElements = fixture.debugElement.queryAll(By.css('.card'));
+    const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
 
     reposElements.forEach((repoElement: DebugElement, index) => {
       expect(repoElement.nativeElement.innerHTML).toContain(testRepos[index].name);

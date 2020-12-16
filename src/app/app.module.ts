@@ -4,11 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ReposComponent } from './repos/repos.component';
+import { RepoCardComponent } from './repo-card/repo-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ReposComponent
+    ReposComponent,
+    RepoCardComponent
   ],
   imports: [
     BrowserModule,

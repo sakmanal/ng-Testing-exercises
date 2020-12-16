@@ -3,7 +3,7 @@ import { DataService } from '../services/data.service';
 import { Repo } from '../models/repo';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-repos',
@@ -26,6 +26,13 @@ export class ReposComponent implements OnInit {
            return of([]);
         })
       );
+  }
+
+  delete(repoId: number): void {
+    this.repos$ = this.repos$.pipe(
+      map( repos => repos.filter( r => r.id !== repoId))
+    );
+    // this.heroService.deleteHero(hero).subscribe();
   }
 
 }
