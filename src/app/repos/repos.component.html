@@ -1,0 +1,14 @@
+<h1>{{title}}</h1>
+
+<ng-container *ngIf="repos$ | async as repos">
+  <div class="card" *ngFor="let repo of repos">
+    <div class="container">
+      <h4><b>{{ repo.name }}</b></h4>
+      <p>{{ repo.description }}</p>
+    </div>
+  </div>
+</ng-container>
+
+<div class="error" *ngIf="error">
+  {{ error.friendlyMessage }}
+</div>
