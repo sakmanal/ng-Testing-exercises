@@ -15,24 +15,25 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-.content {
+.content, .btn{
   padding: 2px 16px;
 }
 
-.delete {
-  margin-right: 10px;
-  background-color: #6044c5;
+button {
+  margin-top: 20px;
+  font-family: Arial;
+  background-color: #eee;
   border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  transition-duration: 0.4s;
-  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer; cursor: hand;
+  margin: 3px;
 }
 
-button:hover {
+button.delete:hover {
   background-color: #e63d3d;
+}
+
+button.open:hover {
+  background-color: #3389eb;
 }

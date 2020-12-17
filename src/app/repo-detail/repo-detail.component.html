@@ -1,0 +1,21 @@
+<div *ngIf="repo">
+  <h2>{{ repo.name | uppercase }} Details</h2>
+  <div>
+    <i class="fab fa-github fa-2x icon"></i><span>id: </span>{{ repo.id }}
+    <i class="fas fa-star star"></i> {{repo.stars}}
+  </div>
+  <div>
+    <label>name:
+      <input [(ngModel)]="repo.name" placeholder="name"/>
+    </label>
+  </div>
+  <div>
+    <label>description:
+      <textarea  [(ngModel)]="repo.description" placeholder="description"></textarea>
+    </label>
+  </div>
+
+  <button class="back" (click)="goBack()">go back</button>
+  <button class="save" (click)="save()">save</button>
+</div>
+

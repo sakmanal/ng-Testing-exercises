@@ -3,7 +3,7 @@ import { DataService } from '../services/data.service';
 import { Repo } from '../models/repo';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-repos',

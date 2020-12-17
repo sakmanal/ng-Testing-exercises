@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
-import { environment } from 'src/environments/environment';
 import { DataService } from './data.service';
 import { Repo } from '../models/repo';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
@@ -8,6 +7,7 @@ import { RepoRetrieveError } from '../models/repoRetrieveError';
 describe('DataService Tests', () => {
   let dataService: DataService;
   let httpTestingController: HttpTestingController;
+  const reposUrl = 'api/repos';
 
   const testRepos: Repo[] = [
     {
@@ -15,14 +15,20 @@ describe('DataService Tests', () => {
       description: 'Angular App 1',
       url: 'https://github.com/sakmanal/repo-1',
       homepage: 'https://repo-1.app',
-      id: 1001
+      id: 1001,
+      owner: 'sakmanal',
+      stars: 5,
+      forks: 1
     },
     {
       name: 'repo-2',
       description: 'Angular App 2',
-      url: 'https://github.com/sakmanal/repo-2',
+      url: 'https://github.com/nikospap/repo-2',
       homepage: 'https://repo-2.app',
-      id: 1001
+      id: 1002,
+      owner: 'nikospap',
+      stars: 6,
+      forks: 2
     },
   ];
 
@@ -49,7 +55,7 @@ describe('DataService Tests', () => {
 
     // check that one and only one call was made to our endpoint.
     // This will return the request that was made by our service, if any.
-    const req: TestRequest = httpTestingController.expectOne(environment.reposUrl);
+    const req: TestRequest = httpTestingController.expectOne(reposUrl);
     // check the HTTP method of this request to make sure it’s a GET
     expect(req.request.method).toEqual('GET');
 
@@ -74,19 +80,19 @@ describe('DataService Tests', () => {
         }
       );
 
-    const req1: TestRequest = httpTestingController.expectOne(environment.reposUrl, 'expected to make an initial request');
+    const req1: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make an initial request');
     req1.flush('error', retrievalError);
 
-    const req2: TestRequest = httpTestingController.expectOne(environment.reposUrl, 'expected to make a second request');
+    const req2: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make a second request');
     req2.flush('error', retrievalError);
 
-    const req3: TestRequest = httpTestingController.expectOne(environment.reposUrl, 'exected to make a third request');
+    const req3: TestRequest = httpTestingController.expectOne(reposUrl, 'exected to make a third request');
     req3.flush('error', retrievalError);
 
     httpTestingController.verify();
   });
 
-  it('should return the list of Repos if the backend returns an error 2 times and the succeds', () => {
+  it('should return the list of Repos if the backend returns an error 2 times and then succeds', () => {
     const retrievalError = {
       status: 500,
       statusText: 'Server Error'
@@ -104,13 +110,13 @@ describe('DataService Tests', () => {
       }
     );
 
-    const req1: TestRequest = httpTestingController.expectOne(environment.reposUrl, 'expected to make an initial request');
+    const req1: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make an initial request');
     req1.flush('error', retrievalError);
 
-    const req2: TestRequest = httpTestingController.expectOne(environment.reposUrl, 'expected to make a second request');
+    const req2: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make a second request');
     req2.flush('error', retrievalError);
 
-    const req3: TestRequest = httpTestingController.expectOne(environment.reposUrl, 'exected to make a third request');
+    const req3: TestRequest = httpTestingController.expectOne(reposUrl, 'exected to make a third request');
     req3.flush(testRepos);
 
     httpTestingController.verify();

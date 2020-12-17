@@ -21,14 +21,20 @@ describe('ReposComponent', () => {
       description: 'Angular App 1',
       url: 'https://github.com/sakmanal/repo-1',
       homepage: 'https://repo-1.app',
-      id: 1001
+      id: 1001,
+      owner: 'sakmanal',
+      stars: 5,
+      forks: 1
     },
     {
       name: 'repo-2',
       description: 'Angular App 2',
-      url: 'https://github.com/sakmanal/repo-2',
+      url: 'https://github.com/nikospap/repo-2',
       homepage: 'https://repo-2.app',
-      id: 1001
+      id: 1002,
+      owner: 'nikospap',
+      stars: 6,
+      forks: 2
     },
   ];
 
