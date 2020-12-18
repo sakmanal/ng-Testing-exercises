@@ -1,14 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
 import { Repo } from '../models/repo';
 import { DataService } from '../services/data.service';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
+import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
 
 import { ReposComponent } from './repos.component';
 import { RepoCardComponent } from '../repo-card/repo-card.component';
+
 
 describe('ReposComponent', () => {
   let component: ReposComponent;
@@ -36,12 +38,22 @@ describe('ReposComponent', () => {
       stars: 6,
       forks: 2
     },
+    {
+      name: 'repo-3',
+      description: 'Angular App 3',
+      url: 'https://github.com/elisavet16/repo-3',
+      homepage: 'https://repo-3.app',
+      id: 1003,
+      owner: 'elisavet16',
+      stars: 16,
+      forks: 4
+    }
   ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [ ReposComponent, RepoCardComponent ],
+      declarations: [ ReposComponent, RepoCardComponent, RouterLinkDirectiveStub ],
     })
     .compileComponents();
   }));
@@ -63,6 +75,7 @@ describe('ReposComponent', () => {
 
   it('should get the movies from the service', () => {
     fixture.detectChanges();
+
     expect(mockdataService.getRepos).toHaveBeenCalled();
   });
 
@@ -115,7 +128,6 @@ describe('ReposComponent', () => {
   });
 
   describe('ReposComponent delete', () => {
-
     it('should remove the indicated repo from the repos card list', () => {
       mockdataService.deleteRepo = jasmine.createSpy().and.returnValue(of(true));
       component.repos = testRepos;
@@ -133,7 +145,62 @@ describe('ReposComponent', () => {
 
       expect(mockdataService.deleteRepo).toHaveBeenCalledWith(testRepos[1].id);
     });
+  });
 
+  describe('ReposComponent (deep tests)', () => {
+    it('should render each repo as a RepoCardComponent', () => {
+      fixture.detectChanges();
+
+      const RepoCardComponentDEs = fixture.debugElement.queryAll(By.directive(RepoCardComponent));
+      expect(RepoCardComponentDEs.length).toEqual(testRepos.length);
+      for (let i = 0; i < RepoCardComponentDEs.length; i++) {
+        expect(RepoCardComponentDEs[i].componentInstance.repo).toEqual(testRepos[i]);
+      }
+    });
+
+    it(`should call DataService.deleteRepo when the RepoCardComponent's
+      delete button is clicked`, () => {
+        spyOn(component, 'delete');
+        fixture.detectChanges();
+
+        const RepoCardComponentDEs = fixture.debugElement.queryAll(By.directive(RepoCardComponent));
+        // (RepoCardComponentDEs[0].componentInstance as RepoCardComponent).delete.emit(undefined);
+        RepoCardComponentDEs[0].triggerEventHandler('delete', null);
+
+        expect(component.delete).toHaveBeenCalledWith(testRepos[0].id);
+    });
+
+    it('should add a new repo to the repo card-list when the add button is clicked', () => {
+      fixture.detectChanges();
+      const name = 'ngApp';
+      mockdataService.addRepo = jasmine.createSpy().and.returnValue(of({
+         ...testRepos[0],
+         name,
+         id: 1004
+      }));
+      const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+      const addButton = fixture.debugElement.queryAll(By.css('button'))[0];
+
+      inputElement.value = name;
+      addButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      const repoText = fixture.debugElement.query(By.css('.container')).nativeElement.textContent;
+      expect(repoText).toContain(name);
+    });
+
+    it('should have the correct route for the first repo-card', () => {
+      fixture.detectChanges();
+      const RepoCardComponentDEs = fixture.debugElement.queryAll(By.directive(RepoCardComponent));
+
+      const routerLink = RepoCardComponentDEs[0]
+        .query(By.directive(RouterLinkDirectiveStub))
+        .injector.get(RouterLinkDirectiveStub);
+
+      RepoCardComponentDEs[0].query(By.css('.open')).triggerEventHandler('click', null);
+
+      expect(routerLink.navigatedTo).toBe(`/repos/${testRepos[0].id}`);
+    });
   });
 
 });
