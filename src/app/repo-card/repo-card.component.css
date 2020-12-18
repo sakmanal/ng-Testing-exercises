@@ -1,14 +1,11 @@
 .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 100%;
+  width: fit-content;
   margin-top: 10px;
   background-color: #717374;
   color:aliceblue;
   border-left: solid 5px #6044c5;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .card:hover {

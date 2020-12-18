@@ -15,8 +15,36 @@
   margin: 2px;
 }
 
+.card {
+  margin: 3px;
+}
+
 .error {
   margin: 20px;
   font-size: large;
   color: red;
 }
+
+.add {
+  margin: 20px;
+}
+
+button {
+  margin-top: 20px;
+  font-family: Arial;
+  background-color: #eee;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer; cursor: hand;
+  margin: 2px;
+}
+
+input {
+  padding: 5px 10px;
+}
+
+button:hover {
+  background-color: rgb(41, 131, 235);
+}
+

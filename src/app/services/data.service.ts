@@ -69,6 +69,18 @@ export class DataService {
     );
   }
 
+    /** POST: add a new repo to the server */
+    addRepo(repo: Repo): Observable<Repo> {
+      return this.http.post<Repo>(this.reposUrl, repo, httpOptions).pipe(
+        tap((r: Repo) => this.log(`added repo w/ id=${r.id}`)),
+        catchError(this.handleError)
+      );
+    }
+
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   */
   private handleError(error: HttpErrorResponse): Observable<any> {
     const dataError = new RepoRetrieveError();
     dataError.errorNumber = error.status;
@@ -77,7 +89,7 @@ export class DataService {
     return throwError(dataError);
   }
 
-  /** Log a HeroService message with the MessageService */
+  /** Log a DataService message with the MessageService */
   private log(message: string): void {
 
   }

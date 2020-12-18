@@ -66,51 +66,74 @@ describe('ReposComponent', () => {
     expect(mockdataService.getRepos).toHaveBeenCalled();
   });
 
-  it('should render a title in an h1 tag', () => {
-    fixture.detectChanges();
-    const titleElements = fixture.debugElement.queryAll(By.css('h1'));
+  describe('ReposComponent Render', () => {
+    it('should render a title in an h1 tag', () => {
+      fixture.detectChanges();
+      const titleElements = fixture.debugElement.queryAll(By.css('h1'));
 
-    expect(titleElements.length).toBe(1);
-    expect(titleElements[0].nativeElement.innerHTML).toBe(component.title);
-  });
+      expect(titleElements.length).toBe(1);
+      expect(titleElements[0].nativeElement.innerHTML).toBe(component.title);
+    });
 
-  it('should render all the Github Repos', () => {
-    fixture.detectChanges();
-    const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
+    it('should render all the Github Repos -- create one chip for each repo', () => {
+      fixture.detectChanges();
+      const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
 
-    expect(reposElements.length).toBe(testRepos.length);
-  });
+      expect(reposElements.length).toBe(testRepos.length);
+    });
 
-  it('should show the Repos names', () => {
-    fixture.detectChanges();
-    const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
+    it('should show the Repos names', () => {
+      fixture.detectChanges();
+      const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
 
-    reposElements.forEach((repoElement: DebugElement, index) => {
-      expect(repoElement.nativeElement.innerHTML).toContain(testRepos[index].name);
+      reposElements.forEach((repoElement: DebugElement, index) => {
+        expect(repoElement.nativeElement.innerHTML).toContain(testRepos[index].name);
+      });
+    });
+
+    it('should show an error if getting the repos fail', () => {
+      const error: RepoRetrieveError = {
+        errorNumber: 500,
+        message: 'Server Error',
+        friendlyMessage: 'An error occurred retrieving data.'
+      };
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(throwError(error));
+
+      fixture.detectChanges();
+      const errorElement = fixture.debugElement.queryAll(By.css('.error'));
+
+      expect(errorElement.length).toBe(1);
+      expect(errorElement[0].nativeElement.innerHTML).toContain(error.friendlyMessage);
+    });
+
+    it('should not show an error if getting the repos succeeds', () => {
+      fixture.detectChanges();
+
+      const errorElement = fixture.debugElement.queryAll(By.css('.error'));
+      expect(errorElement.length).toBe(0);
     });
   });
 
-  it('should show an error if getting the repos fail', () => {
-    const error: RepoRetrieveError = {
-      errorNumber: 500,
-      message: 'Server Error',
-      friendlyMessage: 'An error occurred retrieving data.'
-    };
-    mockdataService.getRepos = jasmine.createSpy().and.returnValue(throwError(error));
+  describe('ReposComponent delete', () => {
 
-    fixture.detectChanges();
-    const errorElement = fixture.debugElement.queryAll(By.css('.error'));
+    it('should remove the indicated repo from the repos card list', () => {
+      mockdataService.deleteRepo = jasmine.createSpy().and.returnValue(of(true));
+      component.repos = testRepos;
 
-    expect(errorElement.length).toBe(1);
-    expect(errorElement[0].nativeElement.innerHTML).toContain(error.friendlyMessage);
+      component.delete(testRepos[1].id);
+
+      expect(component.repos.length).toBe(testRepos.length - 1);
+    });
+
+    it('should call deleteRepo', () => {
+      mockdataService.deleteRepo = jasmine.createSpy().and.returnValue(of(true));
+      component.repos = testRepos;
+
+      component.delete(testRepos[1].id);
+
+      expect(mockdataService.deleteRepo).toHaveBeenCalledWith(testRepos[1].id);
+    });
+
   });
-
-  it('should not show an error if getting the repos succeeds', () => {
-    fixture.detectChanges();
-
-    const errorElement = fixture.debugElement.queryAll(By.css('.error'));
-    expect(errorElement.length).toBe(0);
-  });
-
 
 });

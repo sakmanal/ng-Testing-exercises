@@ -8,7 +8,7 @@ import { Repo } from '../models/repo';
   selector: 'app-repo-detail',
   templateUrl: './repo-detail.component.html',
   styleUrls: ['./repo-detail.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RepoDetailComponent implements OnInit {
   @Input() repo: Repo;

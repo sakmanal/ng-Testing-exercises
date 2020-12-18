@@ -1,13 +1,25 @@
 <h1>{{title}}</h1>
 
-<ng-container *ngIf="repos$ | async as repos">
+<!-- <ng-container *ngIf="repos$ | async as repos"> -->
+<ng-container *ngIf="repos">
   <div class="container">
     <div class="chip" *ngFor="let repo of repos">
       {{ repo.name }}
     </div>
   </div>
 
-  <app-repo-card *ngFor="let repo of repos" [repo]="repo" (delete)="delete(repo.id)"></app-repo-card>
+  <div class="add">
+    <label>New Repo name:
+      <input #repoName />
+    </label>
+    <button (click)="add(repoName.value); repoName.value=''">
+      <i class="fas fa-plus"></i> add
+    </button>
+  </div>
+
+  <div class="container">
+    <app-repo-card *ngFor="let repo of repos" [repo]="repo" (delete)="delete(repo.id)" class="card"></app-repo-card>
+  </div>
 </ng-container>
 
 <div class="error" *ngIf="error">
