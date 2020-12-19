@@ -19,7 +19,7 @@ export class RepoSearchComponent implements OnInit {
   ngOnInit(): void {
     this.repos$ = this.searchTerms.pipe(
       tap((term) => {
-        if (term) {
+        if (term.trim()) {
           this.spin = true;
         }
       }),

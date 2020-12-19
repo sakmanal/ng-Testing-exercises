@@ -1,7 +1,7 @@
 <div id="search-component">
   <h4><i class="fas fa-search"></i> Repo Search:</h4>
 
-  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" autocomplete="off"/>
+  <input #searchBox id="search-box" (input)="search(searchBox.value)" autocomplete="off"/>
 
   <div *ngIf="spin"><i class="fas fa-spinner fa-spin"></i> searching...</div>
   <ul class="search-result">

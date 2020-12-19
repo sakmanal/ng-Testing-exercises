@@ -46,80 +46,119 @@ describe('DataService Tests', () => {
     expect(dataService).toBeTruthy();
   });
 
-  it('should GET & return all Repos from the backend', () => {
-    dataService.getRepos().subscribe(
-      (repos: Repo[]) => {
-        expect(repos.length).toBe(testRepos.length);
-      }
-    );
-
-    // check that one and only one call was made to our endpoint.
-    // This will return the request that was made by our service, if any.
-    const req: TestRequest = httpTestingController.expectOne(reposUrl);
-    // check the HTTP method of this request to make sure it’s a GET
-    expect(req.request.method).toEqual('GET');
-
-    req.flush(testRepos);
-    // verify() method to make sure that there are no pending HTTP calls.
-    // make sure that we don’t do more requests than we expect to
-    // or that we don’t have any unhandled requests.
-    httpTestingController.verify();
-  });
-
-  it('should return a RepoRetrieveError if the backend returns an error 3 times in a row', () => {
-    const retrievalError = {
-      status: 500,
-      statusText: 'Server Error'
-    };
-    dataService.getRepos()
-      .subscribe(
-        (data: Repo[]) => fail('this should have been an error'),
-        (err: RepoRetrieveError) => {
-          expect(err.errorNumber).toEqual(retrievalError.status);
-          expect(err.message).toEqual(retrievalError.statusText);
+  describe('getRepos', () => {
+    it('should GET & return all Repos from the backend', () => {
+      dataService.getRepos().subscribe(
+        (repos: Repo[]) => {
+          expect(repos.length).toBe(testRepos.length);
         }
       );
 
-    const req1: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make an initial request');
-    req1.flush('error', retrievalError);
+      // check that one and only one call was made to our endpoint.
+      // This will return the request that was made by our service, if any.
+      const req: TestRequest = httpTestingController.expectOne(reposUrl);
+      // check the HTTP method of this request to make sure it’s a GET
+      expect(req.request.method).toEqual('GET');
 
-    const req2: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make a second request');
-    req2.flush('error', retrievalError);
+      req.flush(testRepos);
+      // verify() method to make sure that there are no pending HTTP calls.
+      // make sure that we don’t do more requests than we expect to
+      // or that we don’t have any unhandled requests.
+      httpTestingController.verify();
+    });
 
-    const req3: TestRequest = httpTestingController.expectOne(reposUrl, 'exected to make a third request');
-    req3.flush('error', retrievalError);
+    it('should return a RepoRetrieveError if the backend returns an error 3 times in a row', () => {
+      const retrievalError = {
+        status: 500,
+        statusText: 'Server Error'
+      };
+      dataService.getRepos()
+        .subscribe(
+          (data: Repo[]) => fail('this should have been an error'),
+          (err: RepoRetrieveError) => {
+            expect(err.errorNumber).toEqual(retrievalError.status);
+            expect(err.message).toEqual(retrievalError.statusText);
+          }
+        );
 
-    httpTestingController.verify();
+      const req1: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make an initial request');
+      req1.flush('error', retrievalError);
+
+      const req2: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make a second request');
+      req2.flush('error', retrievalError);
+
+      const req3: TestRequest = httpTestingController.expectOne(reposUrl, 'exected to make a third request');
+      req3.flush('error', retrievalError);
+
+      httpTestingController.verify();
+    });
+
+    it('should return the list of Repos if the backend returns an error 2 times and then succeds', () => {
+      const retrievalError = {
+        status: 500,
+        statusText: 'Server Error'
+      };
+      dataService.getRepos()
+      .subscribe(
+        (repos: Repo[]) => {
+          expect(repos.length).toBe(testRepos.length);
+          repos.forEach( (r, index) => {
+            expect(r.id).toBe(testRepos[index].id);
+          });
+        },
+        (err: RepoRetrieveError) => {
+          fail('we should not get an error');
+        }
+      );
+
+      const req1: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make an initial request');
+      req1.flush('error', retrievalError);
+
+      const req2: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make a second request');
+      req2.flush('error', retrievalError);
+
+      const req3: TestRequest = httpTestingController.expectOne(reposUrl, 'exected to make a third request');
+      req3.flush(testRepos);
+
+      httpTestingController.verify();
+    });
   });
 
-  it('should return the list of Repos if the backend returns an error 2 times and then succeds', () => {
-    const retrievalError = {
-      status: 500,
-      statusText: 'Server Error'
-    };
-    dataService.getRepos()
-    .subscribe(
-      (repos: Repo[]) => {
-        expect(repos.length).toBe(testRepos.length);
-        repos.forEach( (r, index) => {
-          expect(r.id).toBe(testRepos[index].id);
-        });
-      },
-      (err: RepoRetrieveError) => {
-        fail('we should not get an error');
-      }
-    );
+  describe('searchRepos', () => {
+    it('returns empty array if term is blank and doesn\'t make http call', () => {
+      dataService.searchRepos('').subscribe(res => {
+        expect(res).toEqual([]);
+      });
 
-    const req1: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make an initial request');
-    req1.flush('error', retrievalError);
+      httpTestingController.expectNone('api/repos/?name=');
+      httpTestingController.verify();
+    });
 
-    const req2: TestRequest = httpTestingController.expectOne(reposUrl, 'expected to make a second request');
-    req2.flush('error', retrievalError);
+    it('returns repos using http GET', () => {
+      dataService.searchRepos('app').subscribe(res => {
+        expect(res).toEqual(testRepos);
+      });
 
-    const req3: TestRequest = httpTestingController.expectOne(reposUrl, 'exected to make a third request');
-    req3.flush(testRepos);
+      const req = httpTestingController.expectOne('api/repos/?name=app');
+      expect(req.request.method).toEqual('GET');
+      req.flush(testRepos);
 
-    httpTestingController.verify();
+      httpTestingController.verify();
+    });
+
+    it('handles 404 error', () => {
+      dataService.searchRepos('app').subscribe(res => {
+        expect(res).toEqual([]);
+      });
+
+      const req = httpTestingController.expectOne('api/repos/?name=app');
+
+      spyOn(console, 'error');
+
+      req.flush('Error', { status: 404, statusText: 'Not Found' });
+
+      expect(console.error).toHaveBeenCalled();
+    });
   });
 
 });

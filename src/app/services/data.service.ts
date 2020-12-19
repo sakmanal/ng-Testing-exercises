@@ -23,7 +23,8 @@ export class DataService {
     return this.http.get<Repo[]>(this.reposUrl).pipe(
       retry(2),
       tap(repos => this.log(`fetched Github Repos`)),
-      catchError(this.handleError)
+      catchError(this.handleError),
+      // catchError(this.handleErrors('getHeroes', []))
     );
   }
 
@@ -46,7 +47,8 @@ export class DataService {
     const url = `${this.reposUrl}/${id}`;
     return this.http.get<Repo>(url).pipe(
       tap(_ => this.log(`fetched repo id=${id}`)),
-      catchError(this.handleError)
+      // catchError(this.handleError),
+      catchError(this.handleErrors<Repo>(`getHero id=${id}`))
     );
   }
 
@@ -58,7 +60,8 @@ export class DataService {
     }
     return this.http.get<Repo[]>(`api/repos/?name=${term}`).pipe(
       tap(_ => this.log(`found repos matching "${term}"`)),
-      catchError(this.handleError)
+      // catchError(this.handleError),
+      catchError(this.handleErrors<Repo[]>('searchHeroes', []))
     );
   }
 
@@ -69,7 +72,8 @@ export class DataService {
 
     return this.http.delete<Repo>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted repo id=${id}`)),
-      catchError(this.handleError)
+      // catchError(this.handleError),
+      catchError(this.handleErrors<Repo>('deleteHero'))
     );
   }
 
@@ -77,7 +81,8 @@ export class DataService {
   updateRepo(repo: Repo): Observable<any> {
     return this.http.put(this.reposUrl, repo, httpOptions).pipe(
       tap(_ => this.log(`updated repo id=${repo.id}`)),
-      catchError(this.handleError)
+      // catchError(this.handleError),
+      catchError(this.handleErrors<any>('updateHero'))
     );
   }
 
@@ -85,13 +90,14 @@ export class DataService {
     addRepo(repo: Repo): Observable<Repo> {
       return this.http.post<Repo>(this.reposUrl, repo, httpOptions).pipe(
         tap((r: Repo) => this.log(`added repo w/ id=${r.id}`)),
-        catchError(this.handleError)
+        // catchError(this.handleError),
+        catchError(this.handleErrors<Repo>('addHero'))
       );
     }
 
   /**
    * Handle Http operation that failed.
-   * Let the app continue.
+   * return error info to component
    */
   private handleError(error: HttpErrorResponse): Observable<any> {
     const dataError = new RepoRetrieveError();
@@ -99,6 +105,27 @@ export class DataService {
     dataError.message = error.statusText;
     dataError.friendlyMessage = 'An error occurred retrieving data.';
     return throwError(dataError);
+  }
+
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleErrors<T>(operation = 'operation', result?: T): (error: HttpErrorResponse) => Observable<T> {
+    return (error: HttpErrorResponse): Observable<T> => {
+
+      // in a real world app we could send the error to remote logging infrastructure
+      // log to console instead
+      console.error(error);
+
+      // transform error for user consumption
+      this.log(`${operation} status: ${error.status} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
   /** Log a DataService message with the MessageService */

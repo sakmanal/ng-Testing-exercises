@@ -62,7 +62,8 @@ describe('ReposComponent', () => {
         ReposComponent,
         RepoCardComponent,
         FakeSearchRepoComponent,
-        RouterLinkDirectiveStub ],
+        RouterLinkDirectiveStub
+      ],
     })
     .compileComponents();
   }));

@@ -14,17 +14,3 @@ export class RouterLinkDirectiveStub {
     this.navigatedTo = this.linkParams;
   }
 }
-
-// @Directive({
-//   selector: '[routerLink]',
-//   host: { '(click)': 'onClick()' }
-// })
-// // tslint:disable-next-line: directive-class-suffix
-// export class RouterLinkDirectiveStub {
-//   @Input('routerLink') linkParams: any;
-//   navigatedTo: any = null;
-
-//   onClick(): void {
-//     this.navigatedTo = this.linkParams;
-//   }
-// }
