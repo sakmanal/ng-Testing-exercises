@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
 import { Repo } from '../models/repo';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
@@ -46,6 +46,18 @@ export class DataService {
     const url = `${this.reposUrl}/${id}`;
     return this.http.get<Repo>(url).pipe(
       tap(_ => this.log(`fetched repo id=${id}`)),
+      catchError(this.handleError)
+    );
+  }
+
+  /* GET repos whose name contains search term */
+  searchRepos(term: string): Observable<Repo[]> {
+    if (!term.trim()) {
+      // if not search term, return empty repo array.
+      return of([]);
+    }
+    return this.http.get<Repo[]>(`api/repos/?name=${term}`).pipe(
+      tap(_ => this.log(`found repos matching "${term}"`)),
       catchError(this.handleError)
     );
   }

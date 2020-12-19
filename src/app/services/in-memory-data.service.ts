@@ -5,9 +5,9 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb(): {repos: Repo[]} {
     const repos: Repo[] = [
       {
-        name: 'repo-1',
-        description: 'Angular App 1',
-        url: 'https://github.com/sakmanal/repo-1',
+        name: 'ngMovies',
+        description: 'ngMovies is an movie library app made with Angular and using iMDB API to pull movies information.',
+        url: 'https://github.com/sakmanal/ngMovies',
         homepage: 'https://repo-1.app',
         id: 1001,
         owner: 'sakmanal',
@@ -15,9 +15,9 @@ export class InMemoryDataService implements InMemoryDbService {
         forks: 1
       },
       {
-        name: 'repo-2',
-        description: 'Angular App 2',
-        url: 'https://github.com/nikospap/repo-2',
+        name: 'ngNotes',
+        description: 'ngNotes is a easy note taking app for android synchronize with GMail.',
+        url: 'https://github.com/nikospap/ngNotes',
         homepage: 'https://repo-2.app',
         id: 1002,
         owner: 'nikospap',
@@ -25,9 +25,9 @@ export class InMemoryDataService implements InMemoryDbService {
         forks: 2
       },
       {
-        name: 'repo-3',
-        description: 'Angular App 3',
-        url: 'https://github.com/elisavet16/repo-3',
+        name: 'VideosApp',
+        description: 'a YouTube video search application using Angular and RxJS',
+        url: 'https://github.com/elisavet16/VideosApp',
         homepage: 'https://repo-3.app',
         id: 1003,
         owner: 'elisavet16',
@@ -35,9 +35,9 @@ export class InMemoryDataService implements InMemoryDbService {
         forks: 4
       },
       {
-        name: 'repo-4',
-        description: 'Angular App 4',
-        url: 'https://github.com/codeman/repo-4',
+        name: 'AudioPlayer',
+        description: 'AudioPlayer is a compact audio player for Android Smartphone/tablet.',
+        url: 'https://github.com/codeman/AudioPlayer',
         homepage: 'https://repo-4.app',
         id: 1004,
         owner: 'codeman',
@@ -45,9 +45,9 @@ export class InMemoryDataService implements InMemoryDbService {
         forks: 7
       },
       {
-        name: 'repo-5',
-        description: 'Angular App 5',
-        url: 'https://github.com/sakmanal/repo-5',
+        name: 'weatherApp',
+        description: 'his weather app is one of best free weather apps with full features: Local weather, weather map (weather map service) and weather widgets.',
+        url: 'https://github.com/sakmanal/weatherApp',
         homepage: 'https://repo-5.app',
         id: 1005,
         owner: 'codegirl',

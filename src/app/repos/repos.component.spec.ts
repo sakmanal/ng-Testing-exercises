@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement, Directive, Input } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
@@ -11,6 +11,11 @@ import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
 import { ReposComponent } from './repos.component';
 import { RepoCardComponent } from '../repo-card/repo-card.component';
 
+@Component({
+  selector: 'app-repo-search',
+  template: '<div></div>',
+})
+class FakeSearchRepoComponent { }
 
 describe('ReposComponent', () => {
   let component: ReposComponent;
@@ -53,7 +58,11 @@ describe('ReposComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [ ReposComponent, RepoCardComponent, RouterLinkDirectiveStub ],
+      declarations: [
+        ReposComponent,
+        RepoCardComponent,
+        FakeSearchRepoComponent,
+        RouterLinkDirectiveStub ],
     })
     .compileComponents();
   }));

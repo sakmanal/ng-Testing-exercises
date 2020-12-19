@@ -5,11 +5,18 @@ label {
   color: #53b8eb;
   font-weight: bold;
 }
+
 input {
   height: 2em;
   font-size: 1em;
   padding-left: .4em;
 }
+
+textarea {
+  width: 300px;
+  height: 100px;
+}
+
 button {
   margin-top: 20px;
   font-family: Arial;

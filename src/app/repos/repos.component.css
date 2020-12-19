@@ -1,4 +1,10 @@
-.container {
+.head {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.container, .head {
   display: flex;
   flex-wrap: wrap;
 }
@@ -46,5 +52,9 @@ input {
 
 button:hover {
   background-color: rgb(41, 131, 235);
+}
+
+.search {
+  position: relative;
 }
 
