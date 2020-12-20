@@ -23,7 +23,7 @@ export class RepoDetailComponent implements OnInit {
     this.getRepo();
   }
 
-  private getRepo(): void {
+  getRepo(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.dataService.getRepo(id)
       .subscribe(repo => this.repo = repo);
