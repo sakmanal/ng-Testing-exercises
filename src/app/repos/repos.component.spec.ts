@@ -189,7 +189,7 @@ describe('ReposComponent', () => {
          id: 1004
       }));
       const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
-      const addButton = fixture.debugElement.queryAll(By.css('button'))[0];
+      const addButton = fixture.debugElement.queryAll(By.css('button'))[1];
 
       inputElement.value = name;
       addButton.triggerEventHandler('click', null);

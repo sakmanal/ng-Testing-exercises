@@ -11,6 +11,7 @@ import { RepoCardComponent } from './repo-card/repo-card.component';
 import { RepoDetailComponent } from './repo-detail/repo-detail.component';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { RepoSearchComponent } from './repo-search/repo-search.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RepoSearchComponent } from './repo-search/repo-search.component';
     ReposComponent,
     RepoCardComponent,
     RepoDetailComponent,
-    RepoSearchComponent
+    RepoSearchComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
