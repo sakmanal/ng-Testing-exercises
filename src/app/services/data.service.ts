@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
 import { Repo } from '../models/repo';
 import { RepoRetrieveError } from '../models/repoRetrieveError';
+import { MessageService } from './message.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +17,7 @@ export class DataService {
   // URL to web api
   private reposUrl = 'api/repos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private messageService: MessageService) {}
 
   /** GET repos from the server */
   getRepos(): Observable<Repo[]> {
@@ -78,7 +79,7 @@ export class DataService {
   }
 
   /** PUT: update the repo on the server */
-  updateRepo(repo: Repo): Observable<any> {
+  updateRepo(repo: Repo): Observable<Repo> {
     return this.http.put(this.reposUrl, repo, httpOptions).pipe(
       tap(_ => this.log(`updated repo id=${repo.id}`)),
       // catchError(this.handleError),
@@ -130,6 +131,6 @@ export class DataService {
 
   /** Log a DataService message with the MessageService */
   private log(message: string): void {
-
+    this.messageService.add('DataService: ' + message);
   }
 }

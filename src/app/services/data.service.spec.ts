@@ -161,4 +161,138 @@ describe('DataService Tests', () => {
     });
   });
 
+  describe('deletRepo', () => {
+    const repo = testRepos[1];
+    const url = `${reposUrl}/${repo.id}`;
+
+    it('deletes repo with http del', () => {
+      dataService.deleteRepo(repo).subscribe(res => {
+        expect(res).toEqual(repo);
+      });
+
+      const req = httpTestingController.expectOne(url);
+      expect(req.request.method).toEqual('DELETE');
+      req.flush(repo);
+
+      httpTestingController.verify();
+    });
+
+    it('deletes repo by id with http del', () => {
+      dataService.deleteRepo(repo.id).subscribe(res => {
+        expect(res).toEqual(repo);
+      });
+
+      const req = httpTestingController.expectOne(url);
+      expect(req.request.method).toEqual('DELETE');
+      req.flush(repo);
+
+      httpTestingController.verify();
+    });
+
+    it('handles 404 error', () => {
+      dataService.deleteRepo(repo).subscribe(res => {
+        expect(res).toEqual(undefined);
+      });
+
+      const req = httpTestingController.expectOne(url);
+
+      spyOn(console, 'error');
+
+      req.flush('Error', { status: 404, statusText: 'Not Found' });
+
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('getRepo', () => {
+    const repo = testRepos[1];
+    const url = `${reposUrl}/${repo.id}`;
+
+    it('gets repo with http get', () => {
+      dataService.getRepo(repo.id).subscribe(res => {
+        expect(res).toEqual(repo);
+      });
+
+      const req = httpTestingController.expectOne(url);
+      expect(req.request.method).toEqual('GET');
+      req.flush(repo);
+
+      httpTestingController.verify();
+    });
+
+    it('handles 404 error', () => {
+      dataService.getRepo(repo.id).subscribe(res => {
+        expect(res).toEqual(undefined);
+      });
+
+      const req = httpTestingController.expectOne(url);
+
+      spyOn(console, 'error');
+
+      req.flush('Error', { status: 404, statusText: 'Not Found' });
+
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('updateRepo', () => {
+    const repo = testRepos[1];
+
+    it('updates repo with http put', () => {
+      dataService.updateRepo(repo).subscribe(res => {
+        expect(res).toEqual(repo);
+      });
+
+      const req = httpTestingController.expectOne(reposUrl);
+      expect(req.request.method).toEqual('PUT');
+      req.flush(repo);
+
+      httpTestingController.verify();
+    });
+
+    it('handles 404 error', () => {
+      dataService.updateRepo(repo).subscribe(res => {
+        expect(res).toBeUndefined();
+      });
+
+      const req = httpTestingController.expectOne(reposUrl);
+
+      spyOn(console, 'error');
+
+      req.flush('Error', { status: 404, statusText: 'Not Found' });
+
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
+
+  describe('addRepo', () => {
+    const repo = { name: 'appMovies', description: 'nice app', id: null, owner: 'sakmanal', stars: 5 };
+    it('makes expected calls', () => {
+      dataService.addRepo(repo).subscribe(res => {
+        expect(res.id).toBe(1007);
+      });
+
+      const req = httpTestingController.expectOne(reposUrl);
+      expect(req.request.method).toEqual('POST');
+      req.flush({...repo, id: 1007});
+
+      httpTestingController.verify();
+    });
+
+    it('handles an error', () => {
+      dataService.addRepo(repo).subscribe(res => {
+        expect(res).toEqual(undefined);
+      });
+
+      const req = httpTestingController.expectOne(reposUrl);
+
+      spyOn(console, 'error');
+
+      req.flush('Error', { status: 404, statusText: 'Not Found' });
+
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
 });
