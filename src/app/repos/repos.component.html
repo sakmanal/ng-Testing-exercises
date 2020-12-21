@@ -13,7 +13,7 @@
 <!-- <ng-container *ngIf="repos$ | async as repos"> -->
 <ng-container *ngIf="repos">
   <div class="container">
-    <div class="chip" *ngFor="let repo of repos">
+    <div class="chip" *ngFor="let repo of repos" routerLink="/repos/{{repo.id}}">
       {{ repo.name }}
     </div>
   </div>

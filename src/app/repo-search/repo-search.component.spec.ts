@@ -30,7 +30,7 @@ describe('RepoSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('call search method on input keyup Event', () => {
+  it('call search method on input Event', () => {
       spyOn(component, 'search');
 
       // Run the compnent lifecycle and update HTML

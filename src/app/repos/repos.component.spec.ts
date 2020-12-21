@@ -163,6 +163,34 @@ describe('ReposComponent', () => {
       expect(reposElements2.length).toBe(testRepos.length);
       expect(component.loading).toBeFalse();
     }));
+
+    it('should have the correct route for the first chip', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
+      fixture.detectChanges();
+
+      const routerLink = fixture.debugElement
+      .query(By.css('.chip'))
+      .injector.get(RouterLinkDirectiveStub);
+
+      const reposChipsElements = fixture.debugElement.queryAll(By.css('.chip'));
+      reposChipsElements[0].triggerEventHandler('click', null);
+
+      expect(routerLink.navigatedTo).toBe(`/repos/${testRepos[0].id}`);
+    });
+
+    it('should have the correct route for each chip', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
+      fixture.detectChanges();
+
+      const reposChipsElements = fixture.debugElement.queryAll(By.css('.chip'));
+
+      reposChipsElements.forEach((element, index) => {
+        const routerLink = fixture.debugElement.queryAll(By.css('.chip'))[index].injector.get(RouterLinkDirectiveStub);
+        element.triggerEventHandler('click', null);
+        expect(routerLink.navigatedTo).toBe(`/repos/${testRepos[index].id}`);
+      });
+    });
+
   });
 
   describe('ReposComponent delete', () => {

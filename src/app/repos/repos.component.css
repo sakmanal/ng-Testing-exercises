@@ -20,7 +20,9 @@
   background-color: #6044c5;
   color: aliceblue;
   margin: 2px;
+  cursor: pointer;
 }
+
 
 .card {
   margin: 3px;
