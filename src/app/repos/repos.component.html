@@ -6,6 +6,9 @@
   </button>
 </div>
 
+<ng-container *ngIf="loading">
+  <i class="fas fa-cog fa-spin fa-5x spin"></i>
+</ng-container>
 
 <!-- <ng-container *ngIf="repos$ | async as repos"> -->
 <ng-container *ngIf="repos">

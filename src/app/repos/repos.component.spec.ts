@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
 import { Repo } from '../models/repo';
@@ -10,6 +10,7 @@ import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
 
 import { ReposComponent } from './repos.component';
 import { RepoCardComponent } from '../repo-card/repo-card.component';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-repo-search',
@@ -75,7 +76,7 @@ describe('ReposComponent', () => {
 
     // mock response
     mockdataService = TestBed.inject(DataService);
-    mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
+    // mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
     // spyOn(mockdataService, 'getRepos').and.returnValue(of(testRepos));
   });
 
@@ -84,6 +85,7 @@ describe('ReposComponent', () => {
   });
 
   it('should get the movies from the service', () => {
+    mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
     fixture.detectChanges();
 
     expect(mockdataService.getRepos).toHaveBeenCalled();
@@ -91,6 +93,7 @@ describe('ReposComponent', () => {
 
   describe('ReposComponent Render', () => {
     it('should render a title in an h1 tag', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
       const titleElements = fixture.debugElement.queryAll(By.css('h1'));
 
@@ -99,6 +102,7 @@ describe('ReposComponent', () => {
     });
 
     it('should render all the Github Repos -- create one chip for each repo', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
       const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
 
@@ -106,6 +110,7 @@ describe('ReposComponent', () => {
     });
 
     it('should show the Repos names', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
       const reposElements = fixture.debugElement.queryAll(By.css('.chip'));
 
@@ -130,11 +135,34 @@ describe('ReposComponent', () => {
     });
 
     it('should not show an error if getting the repos succeeds', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
 
       const errorElement = fixture.debugElement.queryAll(By.css('.error'));
+
+      expect(component.repos.length).toBeGreaterThan(0);
       expect(errorElement.length).toBe(0);
     });
+
+    it('should show loading-spinner only while retrieving data', fakeAsync(() => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos).pipe(delay(500)));
+      fixture.detectChanges();
+
+      const spinnerEl1 = fixture.debugElement.queryAll(By.css('.spin'));
+      const reposElements1 = fixture.debugElement.queryAll(By.css('.chip'));
+      expect(spinnerEl1.length).toBe(1);
+      expect(reposElements1.length).toBe(0);
+      expect(component.loading).toBeTrue();
+
+      tick(500);
+      fixture.detectChanges();
+
+      const spinnerEl2 = fixture.debugElement.queryAll(By.css('.spin'));
+      const reposElements2 = fixture.debugElement.queryAll(By.css('.chip'));
+      expect(spinnerEl2.length).toBe(0);
+      expect(reposElements2.length).toBe(testRepos.length);
+      expect(component.loading).toBeFalse();
+    }));
   });
 
   describe('ReposComponent delete', () => {
@@ -159,6 +187,7 @@ describe('ReposComponent', () => {
 
   describe('ReposComponent (deep tests)', () => {
     it('should render each repo as a RepoCardComponent', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
 
       const RepoCardComponentDEs = fixture.debugElement.queryAll(By.directive(RepoCardComponent));
@@ -170,6 +199,7 @@ describe('ReposComponent', () => {
 
     it(`should call DataService.deleteRepo when the RepoCardComponent's
       delete button is clicked`, () => {
+        mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
         spyOn(component, 'delete');
         fixture.detectChanges();
 
@@ -181,6 +211,7 @@ describe('ReposComponent', () => {
     });
 
     it('should add a new repo to the repo card-list when the add button is clicked', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
       const name = 'ngApp';
       mockdataService.addRepo = jasmine.createSpy().and.returnValue(of({
@@ -200,6 +231,7 @@ describe('ReposComponent', () => {
     });
 
     it('should have the correct route for the first repo-card', () => {
+      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
       const RepoCardComponentDEs = fixture.debugElement.queryAll(By.directive(RepoCardComponent));
 

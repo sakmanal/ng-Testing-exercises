@@ -131,6 +131,6 @@ export class DataService {
 
   /** Log a DataService message with the MessageService */
   private log(message: string): void {
-    this.messageService.add('DataService: ' + message);
+    this.messageService.add('DataService: ' + message + ' on ' + new Date(Date.now()).toLocaleString());
   }
 }

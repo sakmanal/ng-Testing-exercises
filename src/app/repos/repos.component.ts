@@ -16,6 +16,7 @@ export class ReposComponent implements OnInit {
   repos: Repo[];
   error: RepoRetrieveError;
   title = 'My Github Repos';
+  loading: boolean;
 
   constructor(private dataService: DataService) { }
 
@@ -27,11 +28,11 @@ export class ReposComponent implements OnInit {
     //        return of([]);
     //     })
     //   );
+    this.loading = true;
     this.dataService.getRepos().subscribe(
       (repos) => this.repos = repos,
-      (error) => {
-        this.error = error;
-      }
+      (error) => this.error = error,
+      () => this.loading  = false
     );
   }
 
