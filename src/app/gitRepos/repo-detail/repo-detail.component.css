@@ -1,3 +1,15 @@
+.detail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+
 label {
   display: inline-block;
   width: 3em;
@@ -17,16 +29,6 @@ textarea {
   height: 100px;
 }
 
-button {
-  margin-top: 20px;
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer; cursor: hand;
-  margin: 3px;
-}
 
 button.save {
   background-color: darkcyan;

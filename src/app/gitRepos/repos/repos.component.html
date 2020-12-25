@@ -1,11 +1,3 @@
-<div class="head">
-  <h1>{{title}}</h1>
-  <app-repo-search class="search"></app-repo-search>
-  <button routerLink="/logs">
-    <i class="far fa-comment-dots"></i> view logs
-  </button>
-</div>
-
 <ng-container *ngIf="loading">
   <i class="fas fa-cog fa-spin fa-5x spin"></i>
 </ng-container>
@@ -22,7 +14,7 @@
     <label>New Repo name:
       <input #repoName />
     </label>
-    <button (click)="add(repoName.value); repoName.value=''">
+    <button id="add-btn" (click)="add(repoName.value); repoName.value=''">
       <i class="fas fa-plus"></i> add
     </button>
   </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { Repo } from '../models/repo';
-import { RepoRetrieveError } from '../models/repoRetrieveError';
+import { DataService } from '@core/services/data.service';
+import { Repo } from '@core/models/repo';
+import { RepoRetrieveError } from '../../core/models/repoRetrieveError';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -15,7 +15,6 @@ export class ReposComponent implements OnInit {
   // repos$: Observable<Repo[]>;
   repos: Repo[];
   error: RepoRetrieveError;
-  title = 'My Github Repos';
   loading: boolean;
 
   constructor(private dataService: DataService) { }

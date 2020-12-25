@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ReposComponent } from './repos/repos.component';
-import { RepoDetailComponent } from './repo-detail/repo-detail.component';
-import { MessagesComponent } from './messages/messages.component';
+import { ReposComponent } from './gitRepos/repos/repos.component';
+import { RepoDetailComponent } from './gitRepos/repo-detail/repo-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/repos', pathMatch: 'full' },
   { path: 'repos/:id', component: RepoDetailComponent },
   { path: 'repos', component: ReposComponent },
-  { path: 'logs', component: MessagesComponent }
+  { path: 'logs', loadChildren: () => import('./messages/messages.module').then(m => m.MessagesModule) }
 ];
 
 @NgModule({

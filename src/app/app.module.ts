@@ -4,23 +4,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
-import { ReposComponent } from './repos/repos.component';
-import { RepoCardComponent } from './repo-card/repo-card.component';
-import { RepoDetailComponent } from './repo-detail/repo-detail.component';
-import { InMemoryDataService } from './services/in-memory-data.service';
-import { RepoSearchComponent } from './repo-search/repo-search.component';
-import { MessagesComponent } from './messages/messages.component';
+import { InMemoryDataService } from './core/services/in-memory-data.service';
+import { RepoSearchComponent } from './core/components/repo-search/repo-search.component';
+import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
+import { CoreModule } from './core/core.module';
+import { MessagesModule } from './messages/messages.module';
+import { GitreposModule } from './gitRepos/gitrepos.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ReposComponent,
-    RepoCardComponent,
-    RepoDetailComponent,
     RepoSearchComponent,
-    MessagesComponent
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +26,10 @@ import { MessagesComponent } from './messages/messages.component';
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 1000, dataEncapsulation: false }),
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CoreModule,
+    MessagesModule,
+    GitreposModule
   ],
   providers: [],
   bootstrap: [AppComponent]

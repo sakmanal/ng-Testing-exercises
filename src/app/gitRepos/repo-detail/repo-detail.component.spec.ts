@@ -1,5 +1,5 @@
 import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
-import { DataService } from '../services/data.service';
+import { DataService } from '../../core/services/data.service';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RepoDetailComponent } from './repo-detail.component';
@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { Repo } from '../models/repo';
+import { Repo } from '../../core/models/repo';
 
 
 describe('RepoDetailComponent', () => {

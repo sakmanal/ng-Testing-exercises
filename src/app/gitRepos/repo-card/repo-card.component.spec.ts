@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RepoCardComponent } from './repo-card.component';
-import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
+import { RouterLinkDirectiveStub } from '../../testing/router-link-directive-stub';
 
 describe('RepoCardComponent', () => {
   let component: RepoCardComponent;

@@ -1,10 +1,10 @@
 import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DataService } from '../services/data.service';
+import { DataService } from '../../services/data.service';
 import { RepoSearchComponent } from './repo-search.component';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
+import { RouterLinkDirectiveStub } from '../../../testing/router-link-directive-stub';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RepoSearchComponent', () => {

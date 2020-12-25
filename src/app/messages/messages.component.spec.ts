@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MessageService } from '../services/message.service';
+import { MessageService } from '../core/services/message.service';
 import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
 import { MessagesComponent } from './messages.component';
 

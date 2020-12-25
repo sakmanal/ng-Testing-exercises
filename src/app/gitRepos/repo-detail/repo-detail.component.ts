@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { DataService } from '../services/data.service';
-import { Repo } from '../models/repo';
+import { DataService } from '@core/services/data.service';
+import { Repo } from '@core/models/repo';
 
 @Component({
   selector: 'app-repo-detail',

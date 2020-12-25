@@ -1,11 +1,4 @@
-.head {
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  background-color: darkslateblue;
-}
-
-.container, .head {
+.container {
   display: flex;
   flex-wrap: wrap;
 }
@@ -38,27 +31,12 @@
   margin: 20px;
 }
 
-button {
-  margin-top: 20px;
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer; cursor: hand;
-  margin: 2px;
-}
-
 input {
   padding: 5px 10px;
 }
 
 button:hover {
   background-color: rgb(41, 131, 235);
-}
-
-.search {
-  position: relative;
 }
 
 .spin {

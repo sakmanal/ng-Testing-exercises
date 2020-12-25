@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Repo } from '../models/repo';
+import { Repo } from '@core/models/repo';
 
 @Component({
   selector: 'app-repo-card',

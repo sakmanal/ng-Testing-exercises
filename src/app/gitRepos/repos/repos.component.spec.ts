@@ -1,22 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
-import { Repo } from '../models/repo';
-import { DataService } from '../services/data.service';
-import { RepoRetrieveError } from '../models/repoRetrieveError';
-import { RouterLinkDirectiveStub } from '../testing/router-link-directive-stub';
+import { Repo } from '../../core/models/repo';
+import { DataService } from '../../core/services/data.service';
+import { RepoRetrieveError } from '../../core/models/repoRetrieveError';
+import { RouterLinkDirectiveStub } from '../../testing/router-link-directive-stub';
 
 import { ReposComponent } from './repos.component';
 import { RepoCardComponent } from '../repo-card/repo-card.component';
 import { delay } from 'rxjs/operators';
-
-@Component({
-  selector: 'app-repo-search',
-  template: '<div></div>',
-})
-class FakeSearchRepoComponent { }
 
 describe('ReposComponent', () => {
   let component: ReposComponent;
@@ -62,7 +56,6 @@ describe('ReposComponent', () => {
       declarations: [
         ReposComponent,
         RepoCardComponent,
-        FakeSearchRepoComponent,
         RouterLinkDirectiveStub
       ],
     })
@@ -92,14 +85,6 @@ describe('ReposComponent', () => {
   });
 
   describe('ReposComponent Render', () => {
-    it('should render a title in an h1 tag', () => {
-      mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
-      fixture.detectChanges();
-      const titleElements = fixture.debugElement.queryAll(By.css('h1'));
-
-      expect(titleElements.length).toBe(1);
-      expect(titleElements[0].nativeElement.innerHTML).toBe(component.title);
-    });
 
     it('should render all the Github Repos -- create one chip for each repo', () => {
       mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
@@ -238,7 +223,7 @@ describe('ReposComponent', () => {
         expect(component.delete).toHaveBeenCalledWith(testRepos[0].id);
     });
 
-    it('should add a new repo to the repo card-list when the add button is clicked', () => {
+    it('should add a new repo to the repo card-list when the add button is clicked and then clear the input', () => {
       mockdataService.getRepos = jasmine.createSpy().and.returnValue(of(testRepos));
       fixture.detectChanges();
       const name = 'ngApp';
@@ -248,7 +233,7 @@ describe('ReposComponent', () => {
          id: 1004
       }));
       const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
-      const addButton = fixture.debugElement.queryAll(By.css('button'))[1];
+      const addButton = fixture.debugElement.query(By.css('#add-btn'));
 
       inputElement.value = name;
       addButton.triggerEventHandler('click', null);
@@ -256,6 +241,7 @@ describe('ReposComponent', () => {
 
       const repoText = fixture.debugElement.query(By.css('.container')).nativeElement.textContent;
       expect(repoText).toContain(name);
+      expect(inputElement.value).toBe('');
     });
 
     it('should have the correct route for the first repo-card', () => {
