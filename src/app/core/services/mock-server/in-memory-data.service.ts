@@ -1,8 +1,9 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Repo } from '../models/repo';
+import { InMemoryDbService, ResponseOptions } from 'angular-in-memory-web-api';
+import { Repo } from '../../models/repo';
+import { User } from '../../models/user';
 
 export class InMemoryDataService implements InMemoryDbService {
-  createDb(): {repos: Repo[]} {
+  createDb(): any {
     const repos: Repo[] = [
       {
         name: 'ngMovies',
@@ -55,6 +56,35 @@ export class InMemoryDataService implements InMemoryDbService {
         forks: 1
       }
     ];
-    return {repos};
+
+    const users: User[] = [
+      {
+        id: 4000,
+        username: 'Peter',
+        email: 'peter@gmail.com',
+        jwtToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+      }
+    ];
+    return {repos, users};
+  }
+
+
+  protected responseInterceptor(res: ResponseOptions| any, reqInfo: RequestInfo | any): ResponseOptions {
+    if (reqInfo.url === 'api/users' && reqInfo.method === 'post') {
+      const {email, password} = reqInfo.req.body;
+      if (email === 'john@gmail.com' && password === 'pass') {
+        res.body = {
+          id: 4001,
+          username: 'Jojn',
+          email: 'john@gmail.com',
+          jwtToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+        };
+        return res;
+      }
+      res.body = reqInfo.req.body;
+      res.status = 401;
+      res.message = 'Wrong Email or Password';
+    }
+    return res;
   }
 }
