@@ -10,7 +10,7 @@ describe('AuthGurdService', () => {
     service = TestBed.inject(AuthGurdService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   expect(service).toBeTruthy();
+  // });
 });

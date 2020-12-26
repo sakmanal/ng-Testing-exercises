@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
+import { RepoRetrieveError } from '@core/models/repoRetrieveError';
 
 @Component({
   selector: 'app-login',
@@ -53,9 +54,10 @@ export class LoginComponent implements OnInit {
             () => {
               this.router.navigate(['/']);
             },
-            (error) => {
+            (error: RepoRetrieveError) => {
+              console.log(error)
               this.loginForm.reset();
-              this.errorMessage = error;
+              this.errorMessage = error.friendlyMessage;
               this.loading = false;
             }
         );

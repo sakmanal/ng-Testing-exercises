@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RepoRetrieveError } from '@core/models/repoRetrieveError';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../models/user';
@@ -45,18 +46,12 @@ export class AuthService {
   }
 
   private handleError(err: HttpErrorResponse): Observable<any> {
-
-    let errorMessage: string;
-    if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = `${err.status}: ${err.message}`;
-    }
+    const dataError = new RepoRetrieveError();
+    dataError.errorNumber = err.status;
+    dataError.statusText = err.statusText;
+    dataError.friendlyMessage = err.message;
     console.error(err);
-    return throwError(errorMessage);
+    return throwError(dataError);
   }
 
   logout(): void {
