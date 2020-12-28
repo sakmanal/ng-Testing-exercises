@@ -10,7 +10,7 @@ import { User } from '../models/user';
 })
 export class AuthService {
   private userSubject: BehaviorSubject<User>;
-  user: Observable<User>;
+  user$: Observable<User>;
 
   // URL to web api
   private userUrl = 'api/users';
@@ -27,7 +27,7 @@ export class AuthService {
     this.userSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem('user'))
     );
-    this.user = this.userSubject.asObservable();
+    this.user$ = this.userSubject.asObservable();
   }
 
   login(email: string, password: string): Observable<User> {

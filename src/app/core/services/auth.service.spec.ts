@@ -46,7 +46,7 @@ describe('AuthService', () => {
     it('should add user to localStorage & emit its value', () => {
       authService.login(user.email, 'secret-pass').subscribe();
 
-      // authService.user.subscribe((res: User) => {
+      // authService.user$.subscribe((res: User) => {
       //   expect(res.id).toEqual(user.id);
       // });
 
