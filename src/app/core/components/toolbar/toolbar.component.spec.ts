@@ -3,15 +3,9 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User } from '../../../core/models/user';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { of } from 'rxjs';
 import { ToolbarComponent } from './toolbar.component';
 
-// export class AuthServiceStub {
-//   userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-//   user$: Observable<User> = this.userSubject.asObservable();
-// }
 @Component({
   selector: 'app-repo-search',
   template: '<div></div>',
@@ -21,7 +15,7 @@ class FakeSearchRepoComponent { }
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
-  // const authServiceStub = () => ({ user$: () => ({}) });
+
   const user = {
     id: 4000,
     username: 'Peter',
@@ -33,7 +27,7 @@ describe('ToolbarComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule],
       declarations: [ToolbarComponent, FakeSearchRepoComponent],
-      // providers: [{ provide: AuthService, useClass: AuthServiceStub }]
+
     })
     .compileComponents();
   }));
@@ -48,7 +42,6 @@ describe('ToolbarComponent', () => {
   });
 
   it('should render a title in an h1 tag', () => {
-    // const authService: AuthService = TestBed.inject(AuthService);
     fixture.detectChanges();
 
     const titleElements = fixture.debugElement.queryAll(By.css('h1'));
@@ -79,8 +72,4 @@ describe('ToolbarComponent', () => {
     expect(buttons.length).toBe(2);
   }));
 
-  // it('should render searchComponent and logout-button/logs-button only if user is logged in (Alternative)', fakeAsync(() => {
-  //   const authService: AuthService = TestBed.inject(AuthService);
-  //   spyOn(authService, 'login')
-  // }));
 });

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGurdService } from '@core/guards/auth-gurd.service';
 import { ReposComponent } from './gitRepos/repos/repos.component';
 import { RepoDetailComponent } from './gitRepos/repo-detail/repo-detail.component';
+import { LoginpageGuardService } from '@core/guards/loginpage-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/repos', pathMatch: 'full' },
@@ -20,6 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
+    canActivate: [LoginpageGuardService],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 ];

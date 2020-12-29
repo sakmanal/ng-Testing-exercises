@@ -20,18 +20,12 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService
     ) {
-        // redirect to dashboard if already logged in
-        if (this.authService.isLoggedIn) {
-          this.router.navigate(['/']);
-          return;
-        }
-        this.createForm();
+      this.createForm();
      }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
-  createForm(): void {
+  private createForm(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -52,10 +46,10 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.f.email.value, this.f.password.value)
         .subscribe(
             () => {
+              this.loading = false;
               this.router.navigate(['/']);
             },
             (error: RepoRetrieveError) => {
-              console.log(error)
               this.loginForm.reset();
               this.errorMessage = error.friendlyMessage;
               this.loading = false;
