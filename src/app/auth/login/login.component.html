@@ -20,6 +20,7 @@
             formControlName="email"
             type="email"
             id="mail"
+            hoverfocus
             required
             [ngClass]="{ 'is-invalid': f.email.touched && f.email.errors }"
           />
@@ -37,6 +38,7 @@
             formControlName="password"
             type="password"
             id="pass"
+            hoverfocus
             required
             [ngClass]="{
               'is-invalid': f.password.touched && f.password.errors

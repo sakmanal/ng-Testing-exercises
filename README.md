@@ -11,6 +11,7 @@ A repo with examples and exercises for Angular unit-testing techniques.
 - Testing Reactive forms
 - Testing Http Interceptors
 - Testing Route Guards 
+- Testing Directives
 - Components with mock Services and Spies
 - Spies to observe function calls, produce fake errors, mock functions
 - Isolated Unit Tests
