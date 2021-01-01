@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "addressbook": {
+    "ngtesting": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/addressbook",
+            "outputPath": "dist/ngtesting",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "addressbook:build"
+            "browserTarget": "ngtesting:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "addressbook:build:production"
+              "browserTarget": "ngtesting:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "addressbook:build"
+            "browserTarget": "ngtesting:build"
           }
         },
         "test": {
@@ -110,15 +110,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "addressbook:serve"
+            "devServerTarget": "ngtesting:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "addressbook:serve:production"
+              "devServerTarget": "ngtesting:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "addressbook"
+  "defaultProject": "ngtesting"
 }
