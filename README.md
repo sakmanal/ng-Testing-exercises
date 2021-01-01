@@ -1,5 +1,7 @@
 # ng-Testing-exercises
 
+[![build status](https://github.com/sakmanal/ng-Testing-exercises/workflows/Build/badge.svg)](https://github.com/sakmanal/ng-Testing-exercises/actions)
+
 A repo with examples and exercises for Angular unit-testing techniques.
 
 - Testing Components with I/O and Change Detection
