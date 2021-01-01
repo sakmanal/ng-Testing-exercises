@@ -2,7 +2,7 @@
 
 [![build status](https://github.com/sakmanal/ng-Testing-exercises/workflows/Build/badge.svg)](https://github.com/sakmanal/ng-Testing-exercises/actions)
 
-A repo with examples and exercises for Angular unit-testing techniques.
+A repo with examples and exercises for Angular unit-testing techniques + CI with GitHub Actions
 
 - Testing Components with I/O and Change Detection
 - Testing Components with (Async) Service dependencies
@@ -19,6 +19,7 @@ A repo with examples and exercises for Angular unit-testing techniques.
 - Isolated Unit Tests
 - Shallow Integration Tests
 - Deep Integration Tests
+- Continuous Integratio pipeline with GitHub Actions
 
 ![test](https://user-images.githubusercontent.com/32598290/103314088-a7d88980-4a2a-11eb-98ee-a905ae0666d6.png)
 
