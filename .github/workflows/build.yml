@@ -15,6 +15,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+      - uses: actions/cache@v1 # this allows for re-using node_modules caching, making builds a bit faster.
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
       - name: Build
@@ -27,31 +33,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist/ngtesting
-      # - name: Archive build
-      #   if: success()
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: deploy_dist
-      #     path: dist
       # - name: Archive code coverage result
       #   if: success()
       #   uses: actions/upload-artifact@v1
       #   with:
       #     name: coverage
       #     path: coverage
-  # deploy:
-  #   runs-on: ubuntu-18.04
-  #   needs: build_and_test
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v1
-  #     - name: Download build
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: deploy_dist
-  #     - name: Deploy to GitHub Pages
-  #       uses: JamesIves/github-pages-deploy-action@releases/v3
-  #       with:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         BRANCH: gh-pages
-  #         FOLDER: dist/ngtesting
+
