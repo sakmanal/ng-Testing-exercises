@@ -25,7 +25,6 @@ export class DataService {
       retry(2),
       tap(repos => this.log(`fetched Github Repos`)),
       catchError(this.handleError),
-      // catchError(this.handleErrors('getHeroes', []))
     );
   }
 
@@ -49,7 +48,7 @@ export class DataService {
     return this.http.get<Repo>(url).pipe(
       tap(_ => this.log(`fetched repo id=${id}`)),
       // catchError(this.handleError),
-      catchError(this.handleErrors<Repo>(`getHero id=${id}`))
+      catchError(this.handleErrors<Repo>(`getRepo id=${id}`))
     );
   }
 
@@ -62,7 +61,7 @@ export class DataService {
     return this.http.get<Repo[]>(`api/repos/?name=${term}`).pipe(
       tap(_ => this.log(`found repos matching "${term}"`)),
       // catchError(this.handleError),
-      catchError(this.handleErrors<Repo[]>('searchHeroes', []))
+      catchError(this.handleErrors<Repo[]>('searchRepos', []))
     );
   }
 
@@ -74,7 +73,7 @@ export class DataService {
     return this.http.delete<Repo>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted repo id=${id}`)),
       // catchError(this.handleError),
-      catchError(this.handleErrors<Repo>('deleteHero'))
+      catchError(this.handleErrors<Repo>('deleteRepo'))
     );
   }
 
@@ -83,16 +82,16 @@ export class DataService {
     return this.http.put(this.reposUrl, repo, httpOptions).pipe(
       tap(_ => this.log(`updated repo id=${repo.id}`)),
       // catchError(this.handleError),
-      catchError(this.handleErrors<any>('updateHero'))
+      catchError(this.handleErrors<any>('updateRepo'))
     );
   }
 
     /** POST: add a new repo to the server */
     addRepo(repo: Repo): Observable<Repo> {
       return this.http.post<Repo>(this.reposUrl, repo, httpOptions).pipe(
-        tap((r: Repo) => this.log(`added repo w/ id=${r.id}`)),
+        tap((r: Repo) => this.log(`added repo with id=${r.id}`)),
         // catchError(this.handleError),
-        catchError(this.handleErrors<Repo>('addHero'))
+        catchError(this.handleErrors<Repo>('addRepo'))
       );
     }
 

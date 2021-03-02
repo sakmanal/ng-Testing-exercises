@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DataService } from '@core/services/data.service';
@@ -8,10 +8,9 @@ import { Repo } from '@core/models/repo';
   selector: 'app-repo-detail',
   templateUrl: './repo-detail.component.html',
   styleUrls: ['./repo-detail.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RepoDetailComponent implements OnInit {
-  @Input() repo: Repo;
+  repo: Repo;
 
   constructor(
     private route: ActivatedRoute,

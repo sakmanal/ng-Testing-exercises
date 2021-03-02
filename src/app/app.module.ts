@@ -9,7 +9,6 @@ import { InMemoryDataService } from './core/services/mock-server/in-memory-data.
 import { RepoSearchComponent } from './core/components/repo-search/repo-search.component';
 import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
 import { CoreModule } from './core/core.module';
-import { MessagesModule } from './messages/messages.module';
 import { GitreposModule } from './gitRepos/gitrepos.module';
 import { JwtInterceptor } from '@core/interceptors/jwt.interceptor';
 
@@ -29,7 +28,6 @@ import { JwtInterceptor } from '@core/interceptors/jwt.interceptor';
     AppRoutingModule,
     FormsModule,
     CoreModule,
-    MessagesModule,
     GitreposModule
   ],
   providers: [

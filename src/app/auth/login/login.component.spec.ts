@@ -61,7 +61,7 @@ describe('LoginComponent', () => {
       expect(component.loading).toBeFalsy();
     });
 
-    it('Form value should update from when the input is changed', (() => {
+    it('Form value should update when the input is changed', (() => {
       component.loginForm.controls.email.setValue(data.email);
       component.loginForm.controls.password.setValue(data.password);
 
